@@ -5,14 +5,14 @@
 // TODO - make sure the canvas has enough space for all the balls
 
 const canvas = document.getElementById('app-canvas');
-canvas.width = 800;
-canvas.height = 800;
+canvas.width = 500;
+canvas.height = 500;
 
 const ballsConfig = {
-  ballNumber: 1000,
+  ballNumber: 50,
   sceneWidth: canvas.width,
   sceneHeight: canvas.height,
-  colorScheme: ['#69D2E7', '#A7DBD8', '#F38630', '#FA6900'],
+  colorScheme: ['#69D2E7', '#63F4BC', '#638FF4', '#A7DBD8', '#A5E8BE', '#F38630', '#FA6900', '#FDAE0D', '#E3850B', '#5E8E8C'],
   radius: 10,
   totalVelocity: 10
 }
