@@ -1,4 +1,4 @@
-import getBalls from './data.js';
+import balls from './data.js';
 
 class Ball {
   constructor(context, posX, posY, color, radius) {
@@ -9,7 +9,7 @@ class Ball {
   }
 }
 
-const ballsData = getBalls();
+const ballsData = balls;
 
 const canvas = document.getElementById('app-canvas');
 const ctx = canvas.getContext('2d');

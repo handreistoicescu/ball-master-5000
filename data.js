@@ -1,54 +1,57 @@
 // TODO - need to make sure all balls have the same speed
 // research velocity/speed relations and theory
 
-// TODO make sure positionX and positionY are not smaller than radius
-const colorScheme = ['#69D2E7', '#A7DBD8', '#E0E4CC', '#F38630', '#FA6900'];
-const radius = 20;
-const bgColor = "#E0E4CC";
+// TODO - make sure ball won't be generated on another balls' place
+// TODO - make sure the canvas has enough space for all the balls
+
+const canvas = document.getElementById('app-canvas');
+canvas.width = 800;
+canvas.height = 800;
+
+const ballsConfig = {
+  ballNumber: 1000,
+  sceneWidth: canvas.width,
+  sceneHeight: canvas.height,
+  colorScheme: ['#69D2E7', '#A7DBD8', '#F38630', '#FA6900'],
+  radius: 10,
+  totalVelocity: 10
+}
+
+canvas.style.backgroundColor = '#E0E4CC';
+canvas.style.borderColor = 'gray';
+canvas.style.borderWidth = '8px';
 
 // TODO: finish this generating function
-function getThemBalls(ballNumber, sceneConstraints, colorScheme, radius, totalVelocity) {
+function getThemBalls({ ballNumber, sceneWidth, sceneHeight, colorScheme, radius, totalVelocity }) {
   const balls = [];
-  for(i=0; i<=ballNumber; ++i) {
-    const ball = {
-      color: 'red',
-      posX: 30,
-      posY: 20,
-      radius: 20,
-      vx: 15,
-      vy: 15
-    }
-  }
+  for(let i=0; i<=ballNumber; ++i) {
+    const ball = {};
+
+    // Q: how does this randomizing function actually work?
+    // ball.color = colorScheme[Math.floor(Math.random()*colorScheme.length)];
+    ball.color = getRandomArrayItem(colorScheme);
+    ball.posX = getRandomInt(0 + radius, sceneWidth - radius);
+    ball.posY = getRandomInt(0 + radius, sceneHeight - radius);
+    ball.radius = radius;
+    ball.vx = getRandomInt(1, totalVelocity);
+    ball.vy = totalVelocity - ball.vx;
+
+    balls.push(ball);
+  };
   return balls;
 }
 
-export const balls = [
-  { 
-    color: 'red', 
-    posX: 30, 
-    posY: 30,
-    radius: radius, 
-    vx: 7, 
-    vy: 1 
-  },
-  { 
-    color: 'blue', 
-    posX: 100, 
-    posY: 150, 
-    radius: radius, 
-    vx: 4, 
-    vy: 4 
-  },
-  { 
-    color: 'black', 
-    posX: 200, 
-    posY: 200, 
-    radius: radius, 
-    vx: 6, 
-    vy: 2 
-  },
-];
-
-export default function getBalls() {
-  return balls;
+// TODO: move to utility module
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+function getRandomArrayItem(arr) {
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+
+const balls = getThemBalls(ballsConfig);
+
+export default balls;
