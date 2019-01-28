@@ -26,11 +26,11 @@ function updateConfig(configData) {
   });
 }
 
-
 const inputBalls = document.getElementById('input-config-balls');
 const inputSize = document.getElementById('input-config-size');
 
-let frameId;
+inputBalls.value = ballsConfig.ballNumber;
+inputSize.value = ballsConfig.radius;
 
 inputBalls.addEventListener('keyup', (event) => {
   updateConfig({ ballNumber: parseInt(event.target.value, 10) });
@@ -100,7 +100,7 @@ function draw() {
       }
     }); 
   });
-  frameId = requestAnimationFrame(draw);
+  requestAnimationFrame(draw);
 }
 
 draw();
