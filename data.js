@@ -7,21 +7,17 @@
 // TODO - don't rerender the background and border at every pass
 import { getRandomInt, getRandomArrayItem } from './utility.js';
 
-const canvas = document.getElementById('app-canvas');
-canvas.width = 500;
-canvas.height = 500;
-
-const ballsConfig = {
-  ballNumber: 2,
-  sceneWidth: canvas.width,
-  sceneHeight: canvas.height,
-  colorScheme: ['#69D2E7', '#63F4BC', '#638FF4', '#A7DBD8', '#A5E8BE', '#F38630', '#FA6900', '#FDAE0D', '#E3850B', '#5E8E8C'],
-  radius: 100,
-  totalVelocity: 5
-}
-
-function getThemBalls({ ballNumber, sceneWidth, sceneHeight, colorScheme, radius, totalVelocity }) {
+export function getBalls({ ballNumber, sceneWidth, sceneHeight, colorScheme, radius, totalVelocity }) {
   const balls = [];
+
+  if(ballNumber < 1) {
+    throw `Ball number should be at least 1`;
+  }
+
+  if(radius < 1) {
+    throw `Radius should be at least 1`;
+  }
+
   const grid = getGrid(sceneWidth, sceneHeight, radius);
 
   if(ballNumber > grid.length) {
@@ -68,7 +64,3 @@ function getGrid(containerWidth, containerHeight, itemRadius) {
 
   return grid;
 }
-
-const balls = getThemBalls(ballsConfig);
-
-export default balls;

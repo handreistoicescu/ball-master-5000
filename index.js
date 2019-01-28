@@ -1,15 +1,44 @@
-import balls from './data.js';
+import { getBalls } from './data.js';
 
-const ballsData = balls;
-
-const canvas = document.getElementById('app-canvas');;
+const canvas = document.getElementById('app-canvas');
 const ctx = canvas.getContext('2d');
+canvas.width = 500;
+canvas.height = 500;
+
+const ballsConfig = {
+  ballNumber: 2,
+  sceneWidth: canvas.width,
+  sceneHeight: canvas.height,
+  colorScheme: ['#69D2E7', '#63F4BC', '#638FF4', '#A7DBD8', '#A5E8BE', '#F38630', '#FA6900', '#FDAE0D', '#E3850B', '#5E8E8C'],
+  radius: 100,
+  totalVelocity: 5
+}
+
+let ballsData = getBalls(ballsConfig);
+
+function updateConfig(configData) {
+  Object.keys(configData).forEach((key) => {
+    if (ballsConfig.hasOwnProperty(key)) {
+      ballsConfig[key] = configData[key];
+    } else {
+      throw "This key is not in the config object";
+    }
+  });
+}
+
 
 const inputBalls = document.getElementById('input-config-balls');
 const inputSize = document.getElementById('input-config-size');
 
+let frameId;
+
 inputBalls.addEventListener('keyup', (event) => {
-  console.log(`${event.target.value}`);
+  updateConfig({ ballNumber: parseInt(event.target.value, 10) });
+  ballsData = getBalls(ballsConfig);
+});
+inputSize.addEventListener('keyup', (event) => {
+  updateConfig({ radius: parseInt(event.target.value, 10) });
+  ballsData = getBalls(ballsConfig);
 });
 
 // apply styles
@@ -71,7 +100,7 @@ function draw() {
       }
     }); 
   });
-  requestAnimationFrame(draw);
+  frameId = requestAnimationFrame(draw);
 }
 
 draw();
