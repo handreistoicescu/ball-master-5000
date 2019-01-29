@@ -27,17 +27,25 @@ function updateConfig(configData) {
 }
 
 const inputBalls = document.getElementById('input-config-balls');
-const inputSize = document.getElementById('input-config-size');
+const inputRadius = document.getElementById('input-config-radius');
+const inputVelocity = document.getElementById('input-config-velocity');
+
+const fpsCounterText = document.getElementById('fps-text');
 
 inputBalls.value = ballsConfig.ballNumber;
-inputSize.value = ballsConfig.radius;
+inputRadius.value = ballsConfig.radius;
+inputVelocity.value = ballsConfig.totalVelocity;
 
 inputBalls.addEventListener('keyup', (event) => {
   updateConfig({ ballNumber: parseInt(event.target.value, 10) });
   ballsData = getBalls(ballsConfig);
 });
-inputSize.addEventListener('keyup', (event) => {
+inputRadius.addEventListener('keyup', (event) => {
   updateConfig({ radius: parseInt(event.target.value, 10) });
+  ballsData = getBalls(ballsConfig);
+});
+inputVelocity.addEventListener('keyup', (event) => {
+  updateConfig({ totalVelocity: parseInt(event.target.value, 10) });
   ballsData = getBalls(ballsConfig);
 });
 
@@ -61,7 +69,7 @@ class Ball {
   }
 }
 
-function draw() {
+function draw(timeStamp) {
   // clear the canvas
   ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
@@ -100,6 +108,11 @@ function draw() {
       }
     }); 
   });
+
+  // count fps
+  const progress = performance.now() - timeStamp;
+  fpsCounterText.textContent = `FPS: ${Math.floor(1000 / progress)}`;
+
   requestAnimationFrame(draw);
 }
 
